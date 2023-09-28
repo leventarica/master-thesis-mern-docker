@@ -1,7 +1,7 @@
 services:
   slackfrontend:
     build:
-      context: ../Desktop/slack-clone-docker-main
+      context: .
       dockerfile: Dockerfile.reactUI
     ports:
       - "3000:3000"    
@@ -9,8 +9,8 @@ services:
       - db
   nodebackend: 
     build:
-      context: server
-      dockerfile: server/Dockerfile.node
+      context: ./server
+      dockerfile: Dockerfile.node
     ports: 
       - "9000:9000"    #external:internal 
     depends_on:
