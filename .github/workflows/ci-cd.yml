@@ -1,42 +1,48 @@
+name: CI/CD Pipeline
+
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push to main branch
+      - main
   pull_request:
     branches:
-      - main  # Also trigger the workflow on pull requests to main branch
+      - main
+
 jobs:
   build:
-    runs-on: ubuntu-latest  # Specifies the runner environment
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2  # Checks-out your repository so the workflow can access it
+        uses: actions/checkout@v2
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Specifies Node.js version
+          node-version: '16.20.2'
 
       - name: Install dependencies
-        run: npm install  # Installs dependencies
+        run: npm install
 
-      - name: Run tests
-        run: npm test  # Runs your tests (if any)
+      - name: Build Docker images
+        run: |
+          docker build -t kueltuer2018/slack:frontend -f ./Dockerfile.reactUI .
+          docker build -t kueltuer2018/slack:backend -f ./server/Dockerfile.node ./server
+          docker build -t kueltuer2018/slack:db -f ./MongoDB/Dockerfile.mongoDB ./MongoDB
 
-      - name: Build Docker image
-        run: docker build -t my-image-name .  # Builds your Docker image
-  
       - name: Login to Docker Hub
-        run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin  # Logins to Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
 
-      - name: Push Docker image
-        run: docker push my-image-name  # Pushes your Docker image to Docker Hub
+      - name: Push Docker images
+        run: |
+          docker push kueltuer2018/slack:frontend
+          docker push kueltuer2018/slack:backend
+          docker push kueltuer2018/slack:db
 
-deploy:
-    needs: build  # Specifies that this job depends on the build job
+  deploy:
+    needs: build
     runs-on: ubuntu-latest
 
-steps:
-    - name: Checkout code
-      uses: actions/checkout@v2  # Additional steps to deploy your application to AWS
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
