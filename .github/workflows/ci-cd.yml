@@ -56,9 +56,10 @@ jobs:
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem $USER@$HOST <<EOF
-          docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
-          docker pull kueltuer2018/frontend
-          docker pull kueltuer2018/backend
-          docker pull kueltuer2018/db
-          docker-compose -f ./docker-compose.yml up -d
-          echo "Deployment complete"
+            docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+            docker pull kueltuer2018/frontend
+            docker pull kueltuer2018/backend
+            docker pull kueltuer2018/db
+            docker-compose -f ./docker-compose.yml up -d
+            echo "Deployment complete"
+          EOF
