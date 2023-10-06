@@ -12,7 +12,7 @@ services:
       context: ./server
       dockerfile: Dockerfile.node
     ports: 
-      - "9000:9000"    #external:internal 
+      - "9000:9000"
     depends_on:
       - db
   db:
