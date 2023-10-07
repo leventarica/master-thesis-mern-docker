@@ -6,8 +6,5 @@ COPY ./messageModel.js ./messageModel.js
 COPY ./roomModel.js ./roomModel.js
 COPY ./userModel.js ./userModel.js
 RUN yarn install 
-LABEL developer=si3mshady
 EXPOSE 9000
 CMD ["node", "server.js"]
-
-# docker build . -f Dockerfile.node  -t si3mshady/slackclone-be:1
