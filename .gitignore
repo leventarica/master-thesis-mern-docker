@@ -1,2 +1,3 @@
 .terraform/
 /terraform/.terraform.lock.hcl
+/terraform/tf_key.pem
