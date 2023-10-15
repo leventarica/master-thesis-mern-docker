@@ -1,7 +1,7 @@
 provider "aws" {
   region = "us-east-1"
-  access_key = "AKIAZWLRBVEWZHYN67FO"
-  secret_key = "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"
+  access_key = "EC2_ACCESS_KEY"
+  secret_key = "EC2_SECRET_KEY"
 }
 
 resource "aws_security_group" "tf_sg" {
