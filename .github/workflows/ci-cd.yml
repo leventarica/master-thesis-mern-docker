@@ -47,15 +47,33 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy to AWS EC2
+#      - name: Deploy to AWS EC2
+#        env:
+#          PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+#          HOST: ${{ secrets.EC2_HOST }}
+#          USER: ${{ secrets.EC2_SSH_USER }}
+#        run: |
+#          echo "$PRIVATE_KEY" > private_key.pem
+#          chmod 600 private_key.pem
+#          ssh -o StrictHostKeyChecking=no -i private_key.pem $USER@$HOST <<EOF
+#            docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+#            docker pull kueltuer2018/slack:frontend
+#            docker pull kueltuer2018/slack:backend
+#            docker pull kueltuer2018/slack:db
+#            docker-compose -f ./docker-compose.yml up -d
+#            echo "Deployment complete"
+#          EOF
+
+      - name: Deploy to GCP e2-micro
         env:
-          PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          HOST: ${{ secrets.EC2_HOST }}
-          USER: ${{ secrets.EC2_SSH_USER }}
+          PRIVATE_KEY: ${{ secrets.GCP_INSTANCE_SSH_KEY }}
+          HOST: ${{ secrets.GCP_HOST_IP }}
+          USER: ${{ secrets.GCP_USERNAME }}
         run: |
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
-          ssh -o StrictHostKeyChecking=no -i private_key.pem $USER@$HOST <<EOF
+#          scp -i private_key.pem -o StrictHostKeyChecking=no -r . $USER@$HOST:/path/to/destination/folder
+          ssh -i private_key.pem -o StrictHostKeyChecking=no $USER@$HOST <<EOF
             docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
             docker pull kueltuer2018/slack:frontend
             docker pull kueltuer2018/slack:backend
