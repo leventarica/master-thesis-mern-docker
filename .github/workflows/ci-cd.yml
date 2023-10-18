@@ -47,11 +47,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy to GCP e2-micro
+      - name: Deploy to Digital Ocean instance
         env:
-          PRIVATE_KEY: ${{ secrets.GCP_INSTANCE_SSH_KEY }}
-          HOST: ${{ secrets.GCP_HOST_IP }}
-          USER: ${{ secrets.GCP_USERNAME }}
+          PRIVATE_KEY: ${{ secrets.DO_INSTANCE_SSH_KEY }}
+          HOST: ${{ secrets.DO_HOST_IP }}
+          USER: ${{ secrets.DO_USERNAME }}
         run: |
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
