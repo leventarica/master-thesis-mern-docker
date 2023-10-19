@@ -1,6 +1,1 @@
 .terraform/
-/terraform/.terraform.lock.hcl
-/terraform/tf_key.pem
-/terraform/main.tf
-/terraform/terraform.tfstate
-/terraform/terraform.tfstate.backup
