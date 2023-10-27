@@ -47,11 +47,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy to Digital Ocean instance
+      - name: Deploy to AWS EC2
         env:
-          PRIVATE_KEY: ${{ secrets.DO_INSTANCE_SSH_KEY }}
-          HOST: ${{ secrets.DO_HOST_IP }}
-          USER: ${{ secrets.DO_USERNAME }}
+          PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          HOST: ${{ secrets.EC2_HOST }}
+          USER: ${{ secrets.EC2_SSH_USER }}
         run: |
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
